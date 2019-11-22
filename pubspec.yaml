@@ -1,0 +1,46 @@
+name: fun
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  # 状态管理
+  provider: ^3.1.0+1
+  # 缓存图片
+  cached_network_image: ^2.0.0-rc.1
+  # 吐司
+  oktoast: ^2.2.0
+  # 本地存储
+  shared_preferences: ^0.5.4+5
+  # 链接跳转
+  url_launcher: ^5.2.5
+  # 闪光
+  shimmer: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
+    - family: kuaile
+      fonts:
+        - asset: assets/fonts/ZCOOLKuaiLe-Regular.ttf
