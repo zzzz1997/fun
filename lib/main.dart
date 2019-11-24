@@ -14,6 +14,7 @@ import 'package:fun/model/theme.dart';
 /// 应用入口
 ///
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Global.init();
   runApp(MyApp());
 }
