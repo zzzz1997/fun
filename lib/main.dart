@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
           builder: (_, themeModel, localeModel, __) => MaterialApp(
             navigatorKey: Global.key,
             title: title,
-//            theme: themeModel.themeData(),
-//            darkTheme: themeModel.themeData(platformDarkMode: true),
+            theme: themeModel.themeData(),
+            darkTheme: themeModel.themeData(platformDarkMode: true),
 //            locale: localeModel.locale,
             localizationsDelegates: const [
               S.delegate,

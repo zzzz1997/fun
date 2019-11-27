@@ -25,6 +25,12 @@ class Global {
   // 国际化对象
   static S get s => S.of(context);
 
+  // 主题信息
+  static ThemeData get theme => Theme.of(context);
+
+  // 设备信息
+  static MediaQueryData get mediaQuery => MediaQuery.of(context);
+
   // SharedPreferences对象
   static SharedPreferences sharedPreferences;
 

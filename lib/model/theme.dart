@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
@@ -9,13 +10,147 @@ import 'package:fun/common/global.dart';
 /// @created_time 20191122
 ///
 class ThemeModel extends ChangeNotifier {
-  // 明暗模式键
-  static const kIsDarkTheme = 'kIsDarkTheme';
+  // 夜间模式键
+  static const kIsDarkMode = 'kIsDarkMode';
 
-  // 明暗模式
-  bool _isDarkTheme;
+  // 主题颜色键
+  static const kThemeColor = 'kThemeColor';
+
+  // 字体索引键
+  static const kFontIndex = 'kFontIndex';
+
+  // 字体数组
+  static const fontValueList = ['system', 'kuaile'];
+
+  // 夜间模式
+  bool _isDarkMode;
+
+  // 主题色
+  MaterialColor _themeColor;
+
+  // 字体索引
+  int _fontIndex;
+
+  // 获取字体索引
+  int get fontIndex => _fontIndex;
 
   ThemeModel() {
-    _isDarkTheme = Global.sharedPreferences.getBool(kIsDarkTheme) ?? false;
+    _isDarkMode = Global.sharedPreferences.getBool(kIsDarkMode) ?? false;
+    _themeColor =
+        Colors.primaries[Global.sharedPreferences.getInt(kThemeColor) ?? 5];
+    _fontIndex = Global.sharedPreferences.getInt(kFontIndex) ?? 0;
+  }
+
+  ///
+  /// 切换主题
+  ///
+  switchTheme({bool isDarkMode}) {
+    _isDarkMode = _isDarkMode;
+    print(isDarkMode);
+    notifyListeners();
+  }
+
+  ///
+  /// 主题
+  ///
+  ThemeData themeData({bool platformDarkMode = false}) {
+    bool isDark = platformDarkMode || _isDarkMode;
+    Brightness brightness = isDark ? Brightness.dark : Brightness.light;
+
+    MaterialColor themeColor = _themeColor;
+    Color accentColor = isDark ? themeColor[700] : _themeColor;
+    ThemeData themeData = ThemeData(
+        brightness: brightness,
+        primaryColorBrightness: Brightness.dark,
+        accentColorBrightness: Brightness.dark,
+        primarySwatch: themeColor,
+        accentColor: accentColor,
+        fontFamily: fontValueList[fontIndex]);
+
+    Color primaryColor = themeData.primaryColor;
+    Color dividerColor = themeData.dividerColor;
+    Color errorColor = themeData.errorColor;
+    Color disabledColor = themeData.disabledColor;
+
+    double width = 0.5;
+
+    themeData = themeData.copyWith(
+      brightness: brightness,
+      accentColor: accentColor,
+      cupertinoOverrideTheme: CupertinoThemeData(
+        primaryColor: themeColor,
+        brightness: brightness,
+      ),
+      appBarTheme: themeData.appBarTheme.copyWith(elevation: 0),
+      splashColor: themeColor.withAlpha(50),
+      hintColor: themeData.hintColor.withAlpha(90),
+      errorColor: Colors.red,
+      cursorColor: accentColor,
+      textTheme: themeData.textTheme.copyWith(
+        subhead: themeData.textTheme.subhead.copyWith(
+          textBaseline: TextBaseline.alphabetic,
+        ),
+      ),
+      textSelectionColor: accentColor.withAlpha(60),
+      textSelectionHandleColor: accentColor.withAlpha(60),
+      toggleableActiveColor: accentColor,
+      chipTheme: themeData.chipTheme.copyWith(
+        pressElevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        labelStyle: themeData.textTheme.caption,
+        backgroundColor: themeData.chipTheme.backgroundColor.withOpacity(0.1),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(fontSize: 14),
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: width,
+            color: errorColor,
+          ),
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 0.7,
+            color: errorColor,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: width,
+            color: primaryColor,
+          ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: width,
+            color: dividerColor,
+          ),
+        ),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: width,
+            color: dividerColor,
+          ),
+        ),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: width,
+            color: disabledColor,
+          ),
+        ),
+      ),
+    );
+    return themeData;
+  }
+
+  ///
+  /// 保存主题
+  ///
+  saveTheme2Storage() async {
+    int index = Colors.primaries.indexOf(_themeColor);
+    await Future.wait([
+      Global.sharedPreferences.setBool(kIsDarkMode, _isDarkMode),
+      Global.sharedPreferences.setInt(kThemeColor, index)
+    ]);
   }
 }
