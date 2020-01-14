@@ -6,6 +6,7 @@ import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/model/theme.dart';
+import 'package:fun/widget/provider_widget.dart';
 
 ///
 /// 用户页面
@@ -51,19 +52,22 @@ class _UserFragmentState extends State<UserFragment>
                 onTap: switchDarkMode,
                 leading: Transform.rotate(
                   angle: -pi,
-                  child: Icon(
-                    Global.theme.brightness == Brightness.light
-                        ? Icons.brightness_5
-                        : Icons.brightness_2,
-                    color: iconColor,
+                  child: ProviderWidget<ThemeModel>(
+                    builder: (_, m, __) => Icon(
+                      !m.isDarkMode ? Icons.brightness_5 : Icons.brightness_2,
+                      color: iconColor,
+                    ),
                   ),
                 ),
-                trailing: Switch(
+                trailing: ProviderWidget<ThemeModel>(
+                  builder: (_, m, __) => Switch(
                     activeColor: Global.theme.accentColor,
-                    value: Global.theme.brightness == Brightness.dark,
+                    value: m.isDarkMode,
                     onChanged: (_) {
-                      switchDarkMode();
-                    }),
+//                      switchDarkMode();
+                    },
+                  ),
+                ),
               ),
             ],
           ),

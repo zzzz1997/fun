@@ -25,6 +25,9 @@ class ThemeModel extends ChangeNotifier {
   // 夜间模式
   bool _isDarkMode;
 
+  // 获取夜间模式
+  bool get isDarkMode => _isDarkMode;
+
   // 主题色
   MaterialColor _themeColor;
 
@@ -44,10 +47,13 @@ class ThemeModel extends ChangeNotifier {
   ///
   /// 切换主题
   ///
-  switchTheme({bool isDarkMode}) {
-    _isDarkMode = _isDarkMode;
-    print(isDarkMode);
+  switchTheme({bool isDarkMode, MaterialColor color}) {
+    _isDarkMode = isDarkMode ?? _isDarkMode;
+    _themeColor = color ?? _themeColor;
     notifyListeners();
+    int index = Colors.primaries.indexOf(_themeColor);
+    Global.sharedPreferences.setBool(kIsDarkMode, _isDarkMode);
+    Global.sharedPreferences.setInt(kThemeColor, index);
   }
 
   ///

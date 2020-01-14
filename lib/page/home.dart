@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/page/fragment/attention.dart';
+import 'package:fun/page/fragment/home.dart';
 import 'package:fun/page/fragment/user.dart';
 
 ///
@@ -44,6 +45,11 @@ class _HomePageState extends State<HomePage> {
     _list = [
       {
         icon: Icons.home,
+        title: Global.s.home,
+        view: HomeFragment(),
+      },
+      {
+        icon: Icons.star,
         title: Global.s.attention,
         view: AttentionFragment(),
       },

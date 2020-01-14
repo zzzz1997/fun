@@ -24,6 +24,7 @@ class S implements WidgetsLocalizations {
   String get appName => "fun";
   String get attention => "attention";
   String get darkMode => "Dark Mode";
+  String get home => "home";
   String get mine => "mine";
 }
 
@@ -45,6 +46,8 @@ class $zh extends S {
   String get attention => "关注";
   @override
   String get darkMode => "夜间模式";
+  @override
+  String get home => "主页";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
