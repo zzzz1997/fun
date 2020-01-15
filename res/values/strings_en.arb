@@ -1,7 +1,10 @@
 {
   "appName": "fun",
-  "home": "home",
-  "attention": "attention",
-  "mine": "mine",
-  "darkMode": "Dark Mode"
+  "home": "Home",
+  "classification": "Classification",
+  "course": "Course",
+  "shopping_cart": "Shopping cart",
+  "mine": "Mine",
+  "darkMode": "Dark Mode",
+  "colorTheme": "Color Theme"
 }

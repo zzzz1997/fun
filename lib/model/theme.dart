@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:dart_mock/dart_mock.dart' as mock;
+
 import 'package:fun/common/global.dart';
 
 ///
@@ -54,6 +56,16 @@ class ThemeModel extends ChangeNotifier {
     int index = Colors.primaries.indexOf(_themeColor);
     Global.sharedPreferences.setBool(kIsDarkMode, _isDarkMode);
     Global.sharedPreferences.setInt(kThemeColor, index);
+  }
+
+  ///
+  /// 切换随机主题
+  ///
+  switchRandomTheme() {
+    switchTheme(
+      isDarkMode: mock.boolean(),
+      color: Colors.primaries[mock.integer(max: Colors.primaries.length - 1)],
+    );
   }
 
   ///

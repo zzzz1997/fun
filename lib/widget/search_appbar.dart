@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
+import 'package:fun/common/resource.dart';
 
 ///
 /// 搜索appBar
@@ -14,19 +15,86 @@ class SearchAppBar extends PreferredSize {
           child: Material(
             elevation: 4,
             child: Container(
-              padding: EdgeInsets.fromLTRB(
-                NavigationToolbar.kMiddleSpacing,
-                Global.mediaQuery.padding.top +
-                    NavigationToolbar.kMiddleSpacing,
-                NavigationToolbar.kMiddleSpacing,
-                NavigationToolbar.kMiddleSpacing,
+              height: kToolbarHeight + Global.mediaQuery.padding.top,
+              padding: EdgeInsets.only(
+                top: Global.mediaQuery.padding.top,
               ),
-              child: Text('搜索'),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.location_on),
+                      Text(
+                        '太原市',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 32,
+                      decoration: ShapeDecoration(
+                        shape: StadiumBorder(),
+                        color: Color(0xFFF0F0F0),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.search,
+                            size: 20,
+                            color: Color(0xFFCCCCCC),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '搜索',
+                              style: TextStyle(
+                                color: Color(0xFFCCCCCC),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.keyboard_voice,
+                            size: 20,
+                            color: Color(0xFFCCCCCC),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    child: Icon(
+                      IconFonts.scanQrcode,
+                      size: 20,
+                      color: Color(0xFFCCCCCC),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           preferredSize: Size(
             double.infinity,
-            kToolbarHeight,
+            kToolbarHeight + Global.mediaQuery.padding.top,
           ),
         );
 }

@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 /// @author zzzz1997
 /// @created_time 20191122
 ///
-class AttentionFragment extends StatefulWidget {
+class ShoppingCartFragment extends StatefulWidget {
   @override
-  _AttentionFragmentState createState() => _AttentionFragmentState();
+  _ShoppingCartFragmentState createState() => _ShoppingCartFragmentState();
 }
 
 ///
 /// 关注页面状态
 ///
-class _AttentionFragmentState extends State<AttentionFragment>
+class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

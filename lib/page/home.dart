@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
-import 'package:fun/page/fragment/attention.dart';
+import 'package:fun/page/fragment/classification.dart';
+import 'package:fun/page/fragment/course.dart';
 import 'package:fun/page/fragment/home.dart';
+import 'package:fun/page/fragment/shopping_cart.dart';
 import 'package:fun/page/fragment/user.dart';
+
+List<Widget> pages = <Widget>[
+  HomeFragment(),
+  ClassificationFragment(),
+  CourseFragment(),
+  ShoppingCartFragment(),
+  UserFragment()
+];
 
 ///
 /// 主页面
@@ -49,13 +59,23 @@ class _HomePageState extends State<HomePage> {
         view: HomeFragment(),
       },
       {
-        icon: Icons.star,
-        title: Global.s.attention,
-        view: AttentionFragment(),
+        icon: Icons.category,
+        title: Global.s.classification,
+        view: ClassificationFragment(),
+      },
+      {
+        icon: Icons.book,
+        title: Global.s.course,
+        view: CourseFragment(),
+      },
+      {
+        icon: Icons.shopping_cart,
+        title: Global.s.shopping_cart,
+        view: ShoppingCartFragment(),
       },
       {
         icon: Icons.tag_faces,
-        title: Global.s.attention,
+        title: Global.s.mine,
         view: UserFragment(),
       },
     ];
@@ -67,7 +87,7 @@ class _HomePageState extends State<HomePage> {
       body: PageView.builder(
         controller: _controller,
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (_, i) => _list[i][view],
+        itemBuilder: (_, i) => pages[i],
         itemCount: _list.length,
         onPageChanged: (index) {
           setState(() {
@@ -76,6 +96,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: _list
             .map((m) => BottomNavigationBarItem(
                   icon: Icon(m[icon]),

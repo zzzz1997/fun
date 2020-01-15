@@ -22,10 +22,13 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get appName => "fun";
-  String get attention => "attention";
+  String get classification => "Classification";
+  String get colorTheme => "Color Theme";
+  String get course => "Course";
   String get darkMode => "Dark Mode";
-  String get home => "home";
-  String get mine => "mine";
+  String get home => "Home";
+  String get mine => "Mine";
+  String get shopping_cart => "Shopping cart";
 }
 
 class $en extends S {
@@ -39,13 +42,19 @@ class $zh extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get mine => "我";
+  String get shopping_cart => "购物车";
+  @override
+  String get mine => "我的";
   @override
   String get appName => "开心";
   @override
-  String get attention => "关注";
+  String get colorTheme => "色彩主题";
+  @override
+  String get course => "课程";
   @override
   String get darkMode => "夜间模式";
+  @override
+  String get classification => "分类";
   @override
   String get home => "主页";
 }

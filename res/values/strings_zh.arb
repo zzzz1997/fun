@@ -1,7 +1,10 @@
 {
   "appName": "开心",
   "home": "主页",
-  "attention": "关注",
-  "mine": "我",
-  "darkMode": "夜间模式"
+  "classification": "分类",
+  "course": "课程",
+  "shopping_cart": "购物车",
+  "mine": "我的",
+  "darkMode": "夜间模式",
+  "colorTheme": "色彩主题"
 }

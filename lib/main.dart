@@ -42,22 +42,25 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: Consumer2<ThemeModel, LocaleModel>(
-          builder: (_, themeModel, localeModel, __) => MaterialApp(
-            navigatorKey: Global.key,
-            title: title,
-            theme: themeModel.themeData(),
-            darkTheme: themeModel.themeData(platformDarkMode: true),
+          builder: (_, themeModel, localeModel, __) {
+            print('themeModel');
+            return MaterialApp(
+              navigatorKey: Global.key,
+              title: title,
+              theme: themeModel.themeData(),
+              darkTheme: themeModel.themeData(platformDarkMode: true),
 //            locale: localeModel.locale,
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            onGenerateRoute: MyRoute.generateRoute,
-            initialRoute: MyRoute.home,
-          ),
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              onGenerateRoute: MyRoute.generateRoute,
+              initialRoute: MyRoute.home,
+            );
+          },
         ),
       ),
     );
