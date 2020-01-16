@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/global.dart';
+import 'package:fun/common/route.dart';
 import 'package:fun/model/theme.dart';
-import 'package:fun/widget/provider_widget.dart';
+import 'package:provider/provider.dart';
 
 ///
 /// 用户页面
@@ -30,7 +31,6 @@ class _UserFragmentState extends State<UserFragment>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print('build');
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -53,27 +53,26 @@ class _UserFragmentState extends State<UserFragment>
                   onTap: switchDarkMode,
                   leading: Transform.rotate(
                     angle: -pi,
-                    child: ProviderWidget<ThemeModel>(
-                      builder: (_, m, __) => Icon(
-                        !m.isDarkMode ? Icons.brightness_5 : Icons.brightness_2,
-                      ),
+                    child: Icon(
+                      Theme.of(context).brightness == Brightness.light
+                          ? Icons.brightness_5
+                          : Icons.brightness_2,
+                      color: Theme.of(context).accentColor,
                     ),
                   ),
-                  trailing: ProviderWidget<ThemeModel>(
-                    builder: (_, m, __) => Switch(
-                      activeColor: Global.theme.accentColor,
-                      value: m.isDarkMode,
-                      onChanged: (_) {
+                  trailing: Switch(
+                    activeColor: Theme.of(context).accentColor,
+                    value: Theme.of(context).brightness == Brightness.dark,
+                    onChanged: (_) {
 //                      switchDarkMode();
-                      },
-                    ),
+                    },
                   ),
                 ),
                 ExpansionTile(
                   title: Text(Global.s.colorTheme),
                   leading: Icon(
                     Icons.color_lens,
-//                  color: Global.theme.accentColor,
+                    color: Theme.of(context).accentColor,
                   ),
                   children: <Widget>[
                     Padding(
@@ -90,7 +89,7 @@ class _UserFragmentState extends State<UserFragment>
                                     color: color,
                                     child: InkWell(
                                       onTap: () {
-                                        Global.model<ThemeModel>()
+                                        Provider.of<ThemeModel>(context)
                                             .switchTheme(color: color);
                                       },
                                       child: SizedBox(
@@ -103,13 +102,13 @@ class _UserFragmentState extends State<UserFragment>
                           Material(
                             child: InkWell(
                               onTap: () {
-                                Global.model<ThemeModel>().switchRandomTheme();
+                                Provider.of<ThemeModel>(context).switchRandomTheme();
                               },
                               child: Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Global.theme.accentColor,
+                                    color: Theme.of(context).accentColor,
                                   ),
                                 ),
                                 width: 40,
@@ -118,7 +117,7 @@ class _UserFragmentState extends State<UserFragment>
                                   '?',
                                   style: TextStyle(
                                     fontSize: 20,
-                                    color: Global.theme.accentColor,
+                                    color: Theme.of(context).accentColor,
                                   ),
                                 ),
                               ),
@@ -128,6 +127,20 @@ class _UserFragmentState extends State<UserFragment>
                       ),
                     ),
                   ],
+                ),
+                ListTile(
+                  title: Text(Global.s.setting),
+                  onTap: () {
+                    MyRoute.pushNamed(
+                      MyRoute.setting,
+                      routeType: AnimationType.CUPERTINO,
+                    );
+                  },
+                  leading: Icon(
+                    Icons.settings,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  trailing: Icon(Icons.chevron_right),
                 ),
               ],
             ),
@@ -147,8 +160,8 @@ class _UserFragmentState extends State<UserFragment>
         position: ToastPosition.bottom,
       );
     } else {
-      Global.model<ThemeModel>().switchTheme(
-        isDarkMode: Global.theme.brightness == Brightness.light,
+      Provider.of<ThemeModel>(context).switchTheme(
+        isDarkMode: Theme.of(context).brightness == Brightness.light,
       );
     }
   }

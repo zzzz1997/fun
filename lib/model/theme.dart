@@ -69,6 +69,15 @@ class ThemeModel extends ChangeNotifier {
   }
 
   ///
+  /// 切换字体
+  ///
+  switchFont(int index) {
+    _fontIndex = index;
+    switchTheme();
+    Global.sharedPreferences.setInt(kFontIndex, index);
+  }
+
+  ///
   /// 主题
   ///
   ThemeData themeData({bool platformDarkMode = false}) {
@@ -162,13 +171,16 @@ class ThemeModel extends ChangeNotifier {
   }
 
   ///
-  /// 保存主题
+  /// 获取字体名称
   ///
-  saveTheme2Storage() async {
-    int index = Colors.primaries.indexOf(_themeColor);
-    await Future.wait([
-      Global.sharedPreferences.setBool(kIsDarkMode, _isDarkMode),
-      Global.sharedPreferences.setInt(kThemeColor, index)
-    ]);
+  static String fontName(index) {
+    switch (index) {
+      case 0:
+        return Global.s.autoBySystem;
+      case 1:
+        return Global.s.fontKuaiLe;
+      default:
+        return '';
+    }
   }
 }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:fun/common/global.dart';
-
 ///
 /// provider组件
 ///
@@ -22,7 +20,7 @@ class ProviderWidget<T extends ChangeNotifier> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>.value(
-      value: Global.model<T>(),
+      value: Provider.of<T>(context),
       child: Consumer<T>(
         builder: builder,
         child: child,

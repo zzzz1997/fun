@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_swiper/flutter_swiper.dart';
+
 import 'package:fun/widget/search_appbar.dart';
 
 ///
@@ -26,10 +28,22 @@ class _HomeFragmentState extends State<HomeFragment>
     super.build(context);
     return Scaffold(
       appBar: SearchAppBar(),
-      body: Column(
-        children: <Widget>[
-
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 200,
+              child: Swiper(
+                autoplay: true,
+                itemBuilder: (_, i) => Container(
+                  color: Colors.primaries[i],
+                  height: 200,
+                ),
+                itemCount: 3,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

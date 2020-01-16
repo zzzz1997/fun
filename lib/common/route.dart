@@ -1,12 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/page/home.dart';
+import 'package:fun/page/setting.dart';
 
 ///
 /// 动画类型
 ///
-enum AnimationType { NO_ANIM, FADE_IN, MATERIAL }
+enum AnimationType {
+  // 无动画
+  NO_ANIM,
+  // 浅入浅出
+  FADE_IN,
+  // Android质感
+  MATERIAL,
+  // IOS风格
+  CUPERTINO
+}
 
 ///
 /// 自定义路由
@@ -15,17 +26,20 @@ enum AnimationType { NO_ANIM, FADE_IN, MATERIAL }
 /// @created_time 20191121
 ///
 class MyRoute {
-
   // 主页路由
   static const home = 'home';
+
+  // 设置路由
+  static const setting = 'setting';
 
   ///
   /// 构造路由
   ///
   static Route generateRoute(RouteSettings settings) {
     Map map = settings.arguments;
-    AnimationType routeType =
-        map != null ? map['routType'] ?? AnimationType.NO_ANIM : AnimationType.NO_ANIM;
+    AnimationType routeType = map != null
+        ? map['routeType'] ?? AnimationType.NO_ANIM
+        : AnimationType.NO_ANIM;
     switch (routeType) {
       case AnimationType.NO_ANIM:
         return PageRouteBuilder(
@@ -50,6 +64,10 @@ class MyRoute {
         );
       case AnimationType.MATERIAL:
         return MaterialPageRoute(
+          builder: (context) => _buildPage(settings.name, map),
+        );
+      case AnimationType.CUPERTINO:
+        return CupertinoPageRoute(
           builder: (context) => _buildPage(settings.name, map),
         );
       default:
@@ -107,6 +125,8 @@ class MyRoute {
     switch (name) {
       case home:
         return HomePage();
+      case setting:
+        return SettingPage();
       default:
         return Scaffold(
           body: Center(

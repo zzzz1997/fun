@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 import 'package:fun/generated/i18n.dart';
 
@@ -26,7 +25,7 @@ class Global {
   static S get s => S.of(context);
 
   // 主题信息
-  static ThemeData get theme => Theme.of(context);
+//  static ThemeData get theme => Theme.of(context);
 
   // 设备信息
   static MediaQueryData get mediaQuery => MediaQuery.of(context);
@@ -44,7 +43,7 @@ class Global {
   ///
   /// 获取模型
   ///
-  static T model<T>() {
-    return Provider.of<T>(context);
-  }
+//  static T model<T>() {
+//    return Provider.of<T>(context);
+//  }
 }

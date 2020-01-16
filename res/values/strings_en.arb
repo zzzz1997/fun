@@ -6,5 +6,10 @@
   "shopping_cart": "Shopping cart",
   "mine": "Mine",
   "darkMode": "Dark Mode",
-  "colorTheme": "Color Theme"
+  "colorTheme": "Color Theme",
+  "setting": "Setting",
+  "font": "Font",
+  "autoBySystem": "Auto",
+  "fontKuaiLe": "ZCOOL KuaiLe",
+  "language": "Language"
 }

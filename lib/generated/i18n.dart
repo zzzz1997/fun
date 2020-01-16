@@ -22,12 +22,17 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get appName => "fun";
+  String get autoBySystem => "Auto";
   String get classification => "Classification";
   String get colorTheme => "Color Theme";
   String get course => "Course";
   String get darkMode => "Dark Mode";
+  String get font => "Font";
+  String get fontKuaiLe => "ZCOOL KuaiLe";
   String get home => "Home";
+  String get language => "Language";
   String get mine => "Mine";
+  String get setting => "Setting";
   String get shopping_cart => "Shopping cart";
 }
 
@@ -35,8 +40,8 @@ class $en extends S {
   const $en();
 }
 
-class $zh extends S {
-  const $zh();
+class $zh_CN extends S {
+  const $zh_CN();
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
@@ -48,15 +53,25 @@ class $zh extends S {
   @override
   String get appName => "开心";
   @override
+  String get fontKuaiLe => "快乐字体";
+  @override
+  String get language => "语言";
+  @override
+  String get classification => "分类";
+  @override
+  String get home => "主页";
+  @override
+  String get setting => "设置";
+  @override
   String get colorTheme => "色彩主题";
   @override
   String get course => "课程";
   @override
   String get darkMode => "夜间模式";
   @override
-  String get classification => "分类";
+  String get autoBySystem => "跟随系统";
   @override
-  String get home => "主页";
+  String get font => "字体";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -65,7 +80,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", ""),
-      Locale("zh", ""),
+      Locale("zh", "CN"),
     ];
   }
 
@@ -93,8 +108,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         case "en":
           S.current = const $en();
           return SynchronousFuture<S>(S.current);
-        case "zh":
-          S.current = const $zh();
+        case "zh_CN":
+          S.current = const $zh_CN();
           return SynchronousFuture<S>(S.current);
         default:
           // NO-OP.
