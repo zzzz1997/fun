@@ -35,10 +35,10 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<ThemeModel>(
-            builder: (_) => ThemeModel(),
+            create: (_) => ThemeModel(),
           ),
           ChangeNotifierProvider<LocaleModel>(
-            builder: (_) => LocaleModel(),
+            create: (_) => LocaleModel(),
           ),
         ],
         child: Consumer2<ThemeModel, LocaleModel>(

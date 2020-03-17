@@ -39,7 +39,8 @@ class SettingPage extends StatelessWidget {
                       ),
                       Text(
                         ThemeModel.fontName(
-                            Provider.of<ThemeModel>(context).fontIndex),
+                            Provider.of<ThemeModel>(context, listen: false)
+                                .fontIndex),
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ],
@@ -52,7 +53,8 @@ class SettingPage extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       itemBuilder: (_, i) {
-                        var model = Provider.of<ThemeModel>(context);
+                        var model =
+                            Provider.of<ThemeModel>(context, listen: false);
                         return RadioListTile(
                           value: i,
                           groupValue: model.fontIndex,

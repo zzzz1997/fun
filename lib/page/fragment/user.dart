@@ -89,7 +89,8 @@ class _UserFragmentState extends State<UserFragment>
                                     color: color,
                                     child: InkWell(
                                       onTap: () {
-                                        Provider.of<ThemeModel>(context)
+                                        Provider.of<ThemeModel>(context,
+                                                listen: false)
                                             .switchTheme(color: color);
                                       },
                                       child: SizedBox(
@@ -102,7 +103,8 @@ class _UserFragmentState extends State<UserFragment>
                           Material(
                             child: InkWell(
                               onTap: () {
-                                Provider.of<ThemeModel>(context).switchRandomTheme();
+                                Provider.of<ThemeModel>(context, listen: false)
+                                    .switchRandomTheme();
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -160,7 +162,7 @@ class _UserFragmentState extends State<UserFragment>
         position: ToastPosition.bottom,
       );
     } else {
-      Provider.of<ThemeModel>(context).switchTheme(
+      Provider.of<ThemeModel>(context, listen: false).switchTheme(
         isDarkMode: Theme.of(context).brightness == Brightness.light,
       );
     }
