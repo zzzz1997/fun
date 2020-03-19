@@ -28,3 +28,10 @@ class ImageHelper {
     );
   }
 }
+
+///
+///
+/// 样式
+class Style {
+  static Color colorRed = Color(0xFFF23030);
+}

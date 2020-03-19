@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:fun/common/resource.dart';
 
 ///
@@ -65,7 +66,10 @@ class RecommendFragment extends StatelessWidget {
             5,
             10,
           ),
-          child: Text(merchandise.name),
+          child: Text(
+            merchandise.name,
+            style: TextStyle(fontSize: 13),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
@@ -79,10 +83,16 @@ class RecommendFragment extends StatelessWidget {
                     ? '免费'
                     : '￥${merchandise.price.toStringAsFixed(2)}',
                 style: TextStyle(
-                  color: Color(0xFFF23030),
+                  color: Style.colorRed,
+                  fontSize: 15,
                 ),
               ),
-              Text('看相似'),
+              Text(
+                '看相似',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),

@@ -121,6 +121,7 @@ class _HomeFragmentState extends State<HomeFragment>
             '推荐工作 >',
             style: TextStyle(
               color: Color.fromARGB(255, 32, 3, 3),
+              fontSize: 15,
             ),
           ),
           SizedBox(
@@ -182,7 +183,7 @@ class _HomeFragmentState extends State<HomeFragment>
           title,
           style: TextStyle(
             color: Color.fromARGB(255, 32, 3, 3),
-            fontSize: 12,
+            fontSize: 13,
           ),
         ),
       ],

@@ -41,6 +41,13 @@ class Global {
   }
 
   ///
+  /// 夜间模式颜色
+  ///
+  static Color brightnessColor(BuildContext context, Color light, Color dark) {
+    return Theme.of(context).brightness == Brightness.light ? light : dark;
+  }
+
+  ///
   /// 获取模型
   ///
 //  static T model<T>() {
