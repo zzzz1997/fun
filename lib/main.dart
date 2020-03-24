@@ -1,3 +1,4 @@
+import 'package:data_plugin/bmob/bmob.dart';
 import 'package:flutter/material.dart';
 
 import 'package:oktoast/oktoast.dart';
@@ -16,6 +17,8 @@ import 'package:fun/model/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Global.init();
+  Bmob.init("https://api2.bmob.cn", "2e2c3907aca8097a7bb58b013f556f21",
+      "1817b7ef67545d8576a54b8c3dc645bb");
   runApp(MyApp());
 }
 

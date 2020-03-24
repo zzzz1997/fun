@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:fun/common/resource.dart';
+import 'package:fun/model/home.dart';
 import 'package:fun/page/fragment/recommend.dart';
 import 'package:fun/widget/search_appbar.dart';
 
@@ -30,27 +31,30 @@ class _HomeFragmentState extends State<HomeFragment>
     super.build(context);
     return Scaffold(
       appBar: SearchAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _buildBanner(),
-            ..._buildImageButton(),
-            _buildRecommend(),
-            RecommendFragment([
-              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
-                  'im_merchandise_home_0.jpg', 28.5),
-              Merchandise('竹制品花器花艺茶道装饰摆件手工竹编禅意日式中式插花干花鲜花',
-                  'im_merchandise_home_1.jpg', 28.5),
-              Merchandise('剪纸手工中国风相框装饰摆件特色礼品送老外外事出国礼物公司定制',
-                  'im_merchandise_home_2.jpg', 28.5),
-              Merchandise('仿古小屏风摆件特色礼物送老外中国风熊猫屏风北京特产传统工艺品',
-                  'im_merchandise_home_3.jpg', 28.5),
-              Merchandise('川剧变脸熊猫泥人四川特色小礼物京剧熊猫纪念品特色礼品送老外',
-                  'im_merchandise_home_4.jpg', 28.5),
-              Merchandise('潮州传统工艺品纯手工花茉莉陶瓷花白色禅意摆件摆设香插线香香座',
-                  'im_merchandise_home_5.jpg', 28.5),
-            ]),
-          ],
+      body: RefreshIndicator(
+        onRefresh: HomeModel().init,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _buildBanner(),
+              ..._buildImageButton(),
+              _buildRecommend(),
+//            RecommendFragment([
+//              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
+//                  'im_merchandise_home_0.jpg', 28.5),
+//              Merchandise('竹制品花器花艺茶道装饰摆件手工竹编禅意日式中式插花干花鲜花',
+//                  'im_merchandise_home_1.jpg', 28.5),
+//              Merchandise('剪纸手工中国风相框装饰摆件特色礼品送老外外事出国礼物公司定制',
+//                  'im_merchandise_home_2.jpg', 28.5),
+//              Merchandise('仿古小屏风摆件特色礼物送老外中国风熊猫屏风北京特产传统工艺品',
+//                  'im_merchandise_home_3.jpg', 28.5),
+//              Merchandise('川剧变脸熊猫泥人四川特色小礼物京剧熊猫纪念品特色礼品送老外',
+//                  'im_merchandise_home_4.jpg', 28.5),
+//              Merchandise('潮州传统工艺品纯手工花茉莉陶瓷花白色禅意摆件摆设香插线香香座',
+//                  'im_merchandise_home_5.jpg', 28.5),
+//            ]),
+            ],
+          ),
         ),
       ),
     );

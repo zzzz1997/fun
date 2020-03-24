@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:fun/common/resource.dart';
+import 'package:fun/entity/merchandise.dart';
 
 ///
 /// 为你推荐
@@ -56,7 +57,7 @@ class RecommendFragment extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ImageHelper.assetImage(
-          merchandise.image,
+          merchandise.cover.url,
           fit: BoxFit.cover,
         ),
         Padding(
@@ -99,23 +100,4 @@ class RecommendFragment extends StatelessWidget {
       ],
     );
   }
-}
-
-///
-/// 商品实体
-///
-class Merchandise {
-  // 名称
-  String name;
-
-  // 图片
-  String image;
-
-  // 价格
-  double price;
-
-  // 是否购物车
-  bool isShoppingCart;
-
-  Merchandise(this.name, this.image, this.price, {this.isShoppingCart = false});
 }
