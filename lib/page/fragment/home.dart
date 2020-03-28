@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fun/entity/home_banner.dart';
+import 'package:fun/entity/home_icon.dart';
 import 'package:fun/widget/loading_view.dart';
 
 import 'package:provider/provider.dart';
@@ -51,7 +53,13 @@ class _HomeFragmentState extends State<HomeFragment>
       appBar: SearchAppBar(),
       body: RefreshIndicator(
         key: _key,
-        onRefresh: _loadData,
+        onRefresh: () async {
+          try {
+            await _model.init();
+          } catch (e) {
+            showToast(e.toString());
+          }
+        },
         child: ListView.builder(
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
             value: _model,
@@ -61,8 +69,8 @@ class _HomeFragmentState extends State<HomeFragment>
                 isEmpty: _model.banners.isEmpty,
                 child: Column(
                   children: <Widget>[
-                    _buildBanner(),
-                    ..._buildImageButton(),
+                    _buildBanner(_model.banners),
+                    ..._buildImageButton(_model.icons),
                     _buildRecommend(),
 //            RecommendFragment([
 //              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
@@ -80,7 +88,7 @@ class _HomeFragmentState extends State<HomeFragment>
 //            ]),
                   ],
                 ),
-                onErrorTap: _loadData,
+                onErrorTap: _key.currentState.show,
               ),
             ),
           ),
@@ -93,16 +101,16 @@ class _HomeFragmentState extends State<HomeFragment>
   ///
   /// 横幅组件
   ///
-  Widget _buildBanner() {
+  Widget _buildBanner(List<HomeBanner> banners) {
     return AspectRatio(
       aspectRatio: 2.5,
       child: Swiper(
         autoplay: true,
-        itemBuilder: (_, i) => ImageHelper.assetImage(
-          'im_banner_home_$i.jpg',
+        itemBuilder: (_, i) => ImageHelper.networkImage(
+          banners[i].image.url,
           fit: BoxFit.cover,
         ),
-        itemCount: 4,
+        itemCount: banners.length,
       ),
     );
   }
@@ -110,30 +118,32 @@ class _HomeFragmentState extends State<HomeFragment>
   ///
   /// 构建图片按钮
   ///
-  List<Widget> _buildImageButton() {
+  List<Widget> _buildImageButton(List<HomeIcon> icons) {
     return [
       SizedBox(
         height: 20,
       ),
-      Row(
-        children: <Widget>[
-          _imageButton('icons/bird.png', '继承者加盟'),
-          _imageButton('icons/blog.png', '慧眼识珠'),
-          _imageButton('icons/Check.png', '技艺课程'),
-          _imageButton('icons/Cogwheel.png', '微众筹'),
-        ],
-      ),
+      if (icons.length > 0)
+        Row(
+          children: <Widget>[
+            _imageButton(icons[0]),
+            _imageButton(icons[1]),
+            _imageButton(icons[2]),
+            _imageButton(icons[3]),
+          ],
+        ),
       SizedBox(
         height: 20,
       ),
-      Row(
-        children: <Widget>[
-          _imageButton('icons/flag.png', '继承者加盟'),
-          _imageButton('icons/globe.png', '慧眼识珠'),
-          _imageButton('icons/group people.png', '技艺课程'),
-          _imageButton('icons/heart.png', '微众筹'),
-        ],
-      ),
+      if (icons.length > 0)
+        Row(
+          children: <Widget>[
+            _imageButton(icons[4]),
+            _imageButton(icons[5]),
+            _imageButton(icons[6]),
+            _imageButton(icons[7]),
+          ],
+        ),
       SizedBox(
         height: 20,
       ),
@@ -177,18 +187,18 @@ class _HomeFragmentState extends State<HomeFragment>
   ///
   /// 图片按钮
   ///
-  Widget _imageButton(image, title) {
+  Widget _imageButton(HomeIcon icon) {
     return Expanded(
       child: Column(
         children: <Widget>[
-          ImageHelper.assetImage(
-            image,
+          ImageHelper.networkImage(
+            icon.icon.url,
             width: 40,
             height: 40,
             fit: BoxFit.cover,
           ),
           Text(
-            title,
+            icon.title,
             style: TextStyle(
               fontSize: 12,
             ),
@@ -222,16 +232,5 @@ class _HomeFragmentState extends State<HomeFragment>
         ),
       ],
     );
-  }
-
-  ///
-  /// 加载数据
-  ///
-  Future<void> _loadData() async {
-    try {
-      await _model.init();
-    } catch (e) {
-      showToast(e.toString());
-    }
   }
 }

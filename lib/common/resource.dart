@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -18,6 +19,30 @@ class IconFonts {
 /// 图片帮助类
 ///
 class ImageHelper {
+  ///
+  /// 网络图片
+  ///
+  static CachedNetworkImage networkImage(String url,
+      {double width, double height, BoxFit fit}) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      width: width,
+      height: height,
+      fit: fit,
+      placeholder: (_, __) => Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 2.0,
+        ),
+      ),
+      errorWidget: (_, __, ___) => Center(
+        child: Icon(Icons.error_outline),
+      ),
+    );
+  }
+
+  ///
+  /// 本地资源图片
+  ///
   static Image assetImage(String name,
       {double width, double height, BoxFit fit}) {
     return Image.asset(

@@ -26,9 +26,11 @@ class BaseModel extends ChangeNotifier {
   ///
   /// 加载数据
   ///
-  Future<void> load(LoadFunction function) async {
-    _status = CommonStatus.LOADING;
-    notifyListeners();
+  Future<void> load(LoadFunction function, {bool loading = true}) async {
+    if (loading) {
+      _status = CommonStatus.LOADING;
+      notifyListeners();
+    }
     try {
       await function();
       _status = CommonStatus.DONE;
