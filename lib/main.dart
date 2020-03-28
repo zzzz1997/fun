@@ -16,6 +16,7 @@ import 'package:fun/model/theme.dart';
 ///
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+//  debugPrint = (String message, {int wrapWidth}) => {};
   await Global.init();
   Bmob.init("https://api2.bmob.cn", "2e2c3907aca8097a7bb58b013f556f21",
       "1817b7ef67545d8576a54b8c3dc645bb");

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:fun/common/resource.dart';
-import 'package:fun/entity/merchandise.dart';
+import 'package:fun/entity/recommend_merchandise.dart';
 
 ///
 /// 为你推荐
@@ -14,7 +14,7 @@ import 'package:fun/entity/merchandise.dart';
 ///
 class RecommendFragment extends StatelessWidget {
   // 商品
-  final List<Merchandise> merchandise;
+  final List<RecommendMerchandise> merchandise;
 
   RecommendFragment(this.merchandise);
 
@@ -52,7 +52,7 @@ class RecommendFragment extends StatelessWidget {
   ///
   /// 构建商品
   ///
-  Widget _buildMerchandise(Merchandise merchandise) {
+  Widget _buildMerchandise(RecommendMerchandise merchandise) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

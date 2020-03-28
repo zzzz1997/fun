@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fun/common/resource.dart';
-import 'package:fun/entity/merchandise.dart';
+import 'package:fun/entity/recommend_merchandise.dart';
 import 'package:fun/page/fragment/recommend.dart';
 import 'package:fun/widget/search_appbar.dart';
 

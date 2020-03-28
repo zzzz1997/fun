@@ -2,7 +2,7 @@ import 'package:data_plugin/bmob/table/bmob_object.dart';
 import 'package:data_plugin/bmob/type/bmob_file.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'merchandise.g.dart';
+part 'recommend_merchandise.g.dart';
 
 ///
 /// 商品实体
@@ -11,8 +11,8 @@ part 'merchandise.g.dart';
 /// @created_time 20200323
 ///
 @JsonSerializable()
-class Merchandise extends BmobObject {
-  Merchandise(this.name, this.cover, this.price);
+class RecommendMerchandise extends BmobObject {
+  RecommendMerchandise(this.name, this.cover, this.price);
 
   // 名称
   String name;
@@ -23,10 +23,10 @@ class Merchandise extends BmobObject {
   // 价格
   double price;
 
-  factory Merchandise.fromJson(Map<String, dynamic> json) =>
-      _$MerchandiseFromJson(json);
+  factory RecommendMerchandise.fromJson(Map<String, dynamic> json) =>
+      _$RecommendMerchandiseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MerchandiseToJson(this);
+  Map<String, dynamic> toJson() => _$RecommendMerchandiseToJson(this);
 
   @override
   Map getParams() {

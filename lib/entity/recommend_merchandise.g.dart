@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'merchandise.dart';
+part of 'recommend_merchandise.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Merchandise _$MerchandiseFromJson(Map<String, dynamic> json) {
-  return Merchandise(
+RecommendMerchandise _$RecommendMerchandiseFromJson(Map<String, dynamic> json) {
+  return RecommendMerchandise(
       json['name'] as String,
       json['cover'] == null
           ? null
@@ -19,7 +19,7 @@ Merchandise _$MerchandiseFromJson(Map<String, dynamic> json) {
     ..ACL = json['ACL'] as Map<String, dynamic>;
 }
 
-Map<String, dynamic> _$MerchandiseToJson(Merchandise instance) =>
+Map<String, dynamic> _$RecommendMerchandiseToJson(RecommendMerchandise instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,

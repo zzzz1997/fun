@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fun/widget/loading_view.dart';
 
+import 'package:provider/provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/resource.dart';
 import 'package:fun/model/home.dart';
@@ -23,6 +26,21 @@ class HomeFragment extends StatefulWidget {
 ///
 class _HomeFragmentState extends State<HomeFragment>
     with AutomaticKeepAliveClientMixin {
+  // 刷新键
+  final _key = GlobalKey<RefreshIndicatorState>();
+
+  // 状态模型
+  final _model = HomeModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _key.currentState.show();
+    });
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -32,13 +50,20 @@ class _HomeFragmentState extends State<HomeFragment>
     return Scaffold(
       appBar: SearchAppBar(),
       body: RefreshIndicator(
-        onRefresh: HomeModel().init,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _buildBanner(),
-              ..._buildImageButton(),
-              _buildRecommend(),
+        key: _key,
+        onRefresh: _loadData,
+        child: ListView.builder(
+          itemBuilder: (_, i) => ChangeNotifierProvider.value(
+            value: _model,
+            child: Consumer<HomeModel>(
+              builder: (_, m, __) => LoadingView(
+                commonStatus: _model.status,
+                isEmpty: _model.banners.isEmpty,
+                child: Column(
+                  children: <Widget>[
+                    _buildBanner(),
+                    ..._buildImageButton(),
+                    _buildRecommend(),
 //            RecommendFragment([
 //              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
 //                  'im_merchandise_home_0.jpg', 28.5),
@@ -53,8 +78,13 @@ class _HomeFragmentState extends State<HomeFragment>
 //              Merchandise('潮州传统工艺品纯手工花茉莉陶瓷花白色禅意摆件摆设香插线香香座',
 //                  'im_merchandise_home_5.jpg', 28.5),
 //            ]),
-            ],
+                  ],
+                ),
+                onErrorTap: _loadData,
+              ),
+            ),
           ),
+          itemCount: 1,
         ),
       ),
     );
@@ -192,5 +222,16 @@ class _HomeFragmentState extends State<HomeFragment>
         ),
       ],
     );
+  }
+
+  ///
+  /// 加载数据
+  ///
+  Future<void> _loadData() async {
+    try {
+      await _model.init();
+    } catch (e) {
+      showToast(e.toString());
+    }
   }
 }
