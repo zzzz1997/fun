@@ -29,14 +29,16 @@ class ImageHelper {
       width: width,
       height: height,
       fit: fit,
-      placeholder: (_, __) => Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 2.0,
-        ),
-      ),
-      errorWidget: (_, __, ___) => Center(
-        child: Icon(Icons.error_outline),
-      ),
+      placeholder: (_, __) =>
+          Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2.0,
+            ),
+          ),
+      errorWidget: (_, __, ___) =>
+          Center(
+            child: Icon(Icons.error_outline),
+          ),
     );
   }
 

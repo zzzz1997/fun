@@ -56,7 +56,7 @@ class RecommendFragment extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        ImageHelper.assetImage(
+        ImageHelper.networkImage(
           merchandise.cover.url,
           fit: BoxFit.cover,
         ),

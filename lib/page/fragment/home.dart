@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:fun/entity/home_banner.dart';
-import 'package:fun/entity/home_icon.dart';
-import 'package:fun/widget/loading_view.dart';
 
 import 'package:provider/provider.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/resource.dart';
+import 'package:fun/entity/home_banner.dart';
+import 'package:fun/entity/home_icon.dart';
+import 'package:fun/entity/recommend_work.dart';
 import 'package:fun/model/home.dart';
 import 'package:fun/page/fragment/recommend.dart';
+import 'package:fun/widget/loading_view.dart';
 import 'package:fun/widget/search_appbar.dart';
 
 ///
@@ -28,9 +31,6 @@ class HomeFragment extends StatefulWidget {
 ///
 class _HomeFragmentState extends State<HomeFragment>
     with AutomaticKeepAliveClientMixin {
-  // 刷新键
-  final _key = GlobalKey<RefreshIndicatorState>();
-
   // 状态模型
   final _model = HomeModel();
 
@@ -39,7 +39,7 @@ class _HomeFragmentState extends State<HomeFragment>
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _key.currentState.show();
+      _loadData(true);
     });
   }
 
@@ -51,44 +51,40 @@ class _HomeFragmentState extends State<HomeFragment>
     super.build(context);
     return Scaffold(
       appBar: SearchAppBar(),
-      body: RefreshIndicator(
-        key: _key,
-        onRefresh: () async {
-          try {
-            await _model.init();
-          } catch (e) {
-            showToast(e.toString());
-          }
-        },
-        child: ChangeNotifierProvider.value(
-          value: _model,
-          child: Consumer<HomeModel>(
-            builder: (_, m, __) => LoadingView(
-              commonStatus: _model.status,
-              isEmpty: _model.banners.isEmpty,
-              child: Column(
-                children: <Widget>[
-                  _buildBanner(_model.banners),
-                  ..._buildImageButton(_model.icons),
-                  _buildRecommend(),
-//            RecommendFragment([
-//              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
-//                  'im_merchandise_home_0.jpg', 28.5),
-//              Merchandise('竹制品花器花艺茶道装饰摆件手工竹编禅意日式中式插花干花鲜花',
-//                  'im_merchandise_home_1.jpg', 28.5),
-//              Merchandise('剪纸手工中国风相框装饰摆件特色礼品送老外外事出国礼物公司定制',
-//                  'im_merchandise_home_2.jpg', 28.5),
-//              Merchandise('仿古小屏风摆件特色礼物送老外中国风熊猫屏风北京特产传统工艺品',
-//                  'im_merchandise_home_3.jpg', 28.5),
-//              Merchandise('川剧变脸熊猫泥人四川特色小礼物京剧熊猫纪念品特色礼品送老外',
-//                  'im_merchandise_home_4.jpg', 28.5),
-//              Merchandise('潮州传统工艺品纯手工花茉莉陶瓷花白色禅意摆件摆设香插线香香座',
-//                  'im_merchandise_home_5.jpg', 28.5),
-//            ]),
-                ],
-              ),
-              onErrorTap: _key.currentState.show,
+      body: ChangeNotifierProvider.value(
+        value: _model,
+        child: Consumer<HomeModel>(
+          builder: (_, m, __) => LoadingView(
+            commonStatus: _model.status,
+            isEmpty: _model.banners.isEmpty,
+            child: EasyRefresh.custom(
+              footer: MaterialFooter(enableInfiniteLoad: !_model.noMore),
+              onRefresh: () async {
+                await _loadData(true);
+              },
+              onLoad: () async {
+                await _loadData(false);
+              },
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (_, i) => i == 0
+                        ? Column(
+                            children: <Widget>[
+                              _buildBanner(_model.banners),
+                              ..._buildImageButton(_model.icons),
+                              _buildRecommend(_model.works),
+                            ],
+                          )
+                        : RecommendFragment(_model.merchandises),
+                    childCount: 2,
+                  ),
+                )
+              ],
             ),
+            onErrorTap: () {
+              _loadData(true);
+            },
           ),
         ),
       ),
@@ -150,7 +146,7 @@ class _HomeFragmentState extends State<HomeFragment>
   ///
   /// 构建推荐
   ///
-  Widget _buildRecommend() {
+  Widget _buildRecommend(List<RecommendWork> works) {
     return Container(
       color: Color.fromARGB(255, 238, 230, 217),
       padding: EdgeInsets.all(20),
@@ -171,9 +167,9 @@ class _HomeFragmentState extends State<HomeFragment>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              _recommendImage('im_recommend_home_0.jpg', '打银'),
-              _recommendImage('im_recommend_home_1.jpg', '雕刻'),
-              _recommendImage('im_recommend_home_2.jpg', '制陶'),
+              _recommendImage(works[0]),
+              _recommendImage(works[1]),
+              _recommendImage(works[2]),
             ],
           )
         ],
@@ -208,11 +204,11 @@ class _HomeFragmentState extends State<HomeFragment>
   ///
   /// 推荐图片
   ///
-  Widget _recommendImage(image, title) {
+  Widget _recommendImage(RecommendWork work) {
     return Column(
       children: <Widget>[
-        ImageHelper.assetImage(
-          image,
+        ImageHelper.networkImage(
+          work.image.url,
           width: 100,
           height: 100,
           fit: BoxFit.cover,
@@ -221,7 +217,7 @@ class _HomeFragmentState extends State<HomeFragment>
           height: 5,
         ),
         Text(
-          title,
+          work.name,
           style: TextStyle(
             color: Color.fromARGB(255, 32, 3, 3),
             fontSize: 13,
@@ -229,5 +225,20 @@ class _HomeFragmentState extends State<HomeFragment>
         ),
       ],
     );
+  }
+
+  ///
+  /// 加载数据
+  ///
+  _loadData(bool isRefresh) async {
+    try {
+      if (isRefresh) {
+        await _model.init();
+      } else {
+        await _model.loadMore();
+      }
+    } catch (e) {
+      showToast(e.toString());
+    }
   }
 }

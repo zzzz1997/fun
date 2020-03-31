@@ -31,25 +31,8 @@ class LoadingView extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return commonStatus == CommonStatus.LOADING && isEmpty
-        ? Column(
-      mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: SizedBox(
-                    width: 27,
-                    height: 27,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).accentColor),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        ? Center(
+            child: CircularProgressIndicator(),
           )
         : commonStatus == CommonStatus.DONE
             ? isEmpty

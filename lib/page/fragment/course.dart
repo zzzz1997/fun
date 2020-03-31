@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
+import 'package:oktoast/oktoast.dart';
+
 import 'package:fun/common/resource.dart';
-import 'package:fun/entity/recommend_merchandise.dart';
+import 'package:fun/entity/course.dart';
+import 'package:fun/model/course.dart';
 import 'package:fun/page/fragment/recommend.dart';
+import 'package:fun/widget/loading_view.dart';
 import 'package:fun/widget/search_appbar.dart';
 
 ///
@@ -21,6 +28,18 @@ class CourseFragment extends StatefulWidget {
 ///
 class _CourseFragmentState extends State<CourseFragment>
     with AutomaticKeepAliveClientMixin {
+  // 状态模型
+  final _model = CourseModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData(true);
+    });
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -29,30 +48,46 @@ class _CourseFragmentState extends State<CourseFragment>
     super.build(context);
     return Scaffold(
       appBar: SearchAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text('查看更多>>'),
-              ),
+      body: ChangeNotifierProvider.value(
+        value: _model,
+        child: Consumer<CourseModel>(
+          builder: (_, m, __) => LoadingView(
+            commonStatus: _model.status,
+            isEmpty: _model.courses.isEmpty,
+            child: EasyRefresh.custom(
+              footer: MaterialFooter(enableInfiniteLoad: !_model.noMore),
+              onRefresh: () async {
+                await _loadData(true);
+              },
+              onLoad: () async {
+                await _loadData(false);
+              },
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (_, i) => i == 0
+                        ? Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text('查看更多>>'),
+                                ),
+                              ),
+                              ..._buildImageButton(_model.courses),
+                            ],
+                          )
+                        : RecommendFragment(_model.merchandises),
+                    childCount: 2,
+                  ),
+                ),
+              ],
             ),
-            ..._buildImageButton(),
-//            RecommendFragment([
-//              Merchandise('竹编教学视频课程教程大全', 'im_merchandise_course_0.jpg', 0),
-//              Merchandise(
-//                  '陶艺拉坯视频教程台湾林新春拉坯教学全集', 'im_merchandise_course_1.jpg', 10.5),
-//              Merchandise('吹糖人技术资料吹糖糖人模糖塑面塑大全吹糖人捏面人工艺教程',
-//                  'im_merchandise_course_2.jpg', 7.5),
-//              Merchandise(
-//                  '油纸伞女古风中国风工艺绸布伞教学视频', 'im_merchandise_course_3.jpg', 0),
-//              Merchandise('剪纸工具套装刻纸剪纸剪刀垫板雕刻刀刻板学生剪纸教学视频',
-//                  'im_merchandise_course_4.jpg', 8.5),
-//              Merchandise('中国结编制教学视频', 'im_merchandise_course_5.jpg', 0),
-//            ]),
-          ],
+            onErrorTap: () {
+              _loadData(true);
+            },
+          ),
         ),
       ),
     );
@@ -61,13 +96,13 @@ class _CourseFragmentState extends State<CourseFragment>
   ///
   /// 构建图片按钮
   ///
-  List<Widget> _buildImageButton() {
+  List<Widget> _buildImageButton(List<Course> courses) {
     return [
       Row(
         children: <Widget>[
-          _imageButton('im_course_course_0.jpg', '蛋雕课程'),
-          _imageButton('im_course_course_1.jpg', '糖画课程'),
-          _imageButton('im_course_course_2.jpg', '竹编课程'),
+          _imageButton(courses[0]),
+          _imageButton(courses[1]),
+          _imageButton(courses[2]),
         ],
       ),
       SizedBox(
@@ -75,9 +110,9 @@ class _CourseFragmentState extends State<CourseFragment>
       ),
       Row(
         children: <Widget>[
-          _imageButton('im_course_course_3.jpg', '布贴画课程'),
-          _imageButton('im_course_course_4.jpg', '剪纸课程'),
-          _imageButton('im_course_course_5.jpg', '活字印刷术课程'),
+          _imageButton(courses[3]),
+          _imageButton(courses[4]),
+          _imageButton(courses[5]),
         ],
       ),
       SizedBox(
@@ -89,22 +124,24 @@ class _CourseFragmentState extends State<CourseFragment>
   ///
   /// 图片按钮
   ///
-  Widget _imageButton(image, title) {
+  Widget _imageButton(Course course) {
     return Expanded(
       child: Column(
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(30)),
-            child: ImageHelper.assetImage(
-              image,
+            child: ImageHelper.networkImage(
+              course.cover.url,
               width: 90,
               height: 60,
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text(
-            title,
+            course.name,
             style: TextStyle(
               fontSize: 12,
             ),
@@ -112,5 +149,20 @@ class _CourseFragmentState extends State<CourseFragment>
         ],
       ),
     );
+  }
+
+  ///
+  /// 加载数据
+  ///
+  _loadData(bool isRefresh) async {
+    try {
+      if (isRefresh) {
+        await _model.init();
+      } else {
+        await _model.loadMore();
+      }
+    } catch (e) {
+      showToast(e.toString());
+    }
   }
 }

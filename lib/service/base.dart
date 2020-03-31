@@ -9,9 +9,13 @@ import 'package:data_plugin/bmob/table/bmob_object.dart';
 /// @created_time 20200323
 ///
 class BaseService {
-  static Future<List> getList<T extends BmobObject>() async {
+  static Future<List> getList<T extends BmobObject>(
+      {Map<String, Object> equal = const {}}) async {
     try {
       var query = BmobQuery<T>();
+      equal.forEach((key, value) {
+        query.addWhereEqualTo(key, value);
+      });
       return await query.queryObjects();
     } catch (e) {
       throw BmobError.convert(e);

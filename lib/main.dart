@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/common/route.dart';
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
               S.delegate,
               GlobalCupertinoLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
+              GlobalWidgetsLocalizations.delegate,
+              GlobalEasyRefreshLocalizations.delegate
             ],
             supportedLocales: S.delegate.supportedLocales,
             onGenerateRoute: MyRoute.generateRoute,

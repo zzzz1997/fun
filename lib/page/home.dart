@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/page/fragment/classification.dart';
@@ -42,6 +47,11 @@ class _HomePageState extends State<HomePage> {
       ShoppingCartFragment(),
       UserFragment(),
     ];
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      EasyRefresh.defaultHeader = MaterialHeader();
+      EasyRefresh.defaultFooter = MaterialFooter(enableInfiniteLoad: false);
+    });
   }
 
   @override

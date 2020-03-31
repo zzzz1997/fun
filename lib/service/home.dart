@@ -1,5 +1,7 @@
 import 'package:fun/entity/home_banner.dart';
 import 'package:fun/entity/home_icon.dart';
+import 'package:fun/entity/recommend_merchandise.dart';
+import 'package:fun/entity/recommend_work.dart';
 import 'package:fun/service/base.dart';
 
 ///
@@ -24,6 +26,24 @@ class HomeService {
   static Future<List<HomeIcon>> getIcon() async {
     return (await BaseService.getList<HomeIcon>())
         .map((i) => HomeIcon.fromJson(i))
+        .toList();
+  }
+
+  ///
+  /// 获取工作
+  ///
+  static Future<List<RecommendWork>> getRecommendWork() async {
+    return (await BaseService.getList<RecommendWork>())
+        .map((i) => RecommendWork.fromJson(i))
+        .toList();
+  }
+
+  ///
+  /// 获取推荐商品
+  ///
+  static Future<List<RecommendMerchandise>> getRecommendMerchandise() async {
+    return (await BaseService.getList<RecommendMerchandise>(equal: {"type": 0}))
+        .map((i) => RecommendMerchandise.fromJson(i))
         .toList();
   }
 }

@@ -1,32 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recommend_merchandise.dart';
+part of 'recommend_work.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RecommendMerchandise _$RecommendMerchandiseFromJson(Map<String, dynamic> json) {
-  return RecommendMerchandise(
+RecommendWork _$RecommendWorkFromJson(Map<String, dynamic> json) {
+  return RecommendWork(
       json['name'] as String,
-      json['cover'] == null
+      json['image'] == null
           ? null
-          : BmobFile.fromJson(json['cover'] as Map<String, dynamic>),
-      (json['price'] as num)?.toDouble())
+          : BmobFile.fromJson(json['image'] as Map<String, dynamic>))
     ..createdAt = json['createdAt'] as String
     ..updatedAt = json['updatedAt'] as String
     ..objectId = json['objectId'] as String
     ..ACL = json['ACL'] as Map<String, dynamic>;
 }
 
-Map<String, dynamic> _$RecommendMerchandiseToJson(
-        RecommendMerchandise instance) =>
+Map<String, dynamic> _$RecommendWorkToJson(RecommendWork instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'objectId': instance.objectId,
       'ACL': instance.ACL,
       'name': instance.name,
-      'cover': instance.cover,
-      'price': instance.price
+      'image': instance.image
     };

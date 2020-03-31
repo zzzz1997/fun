@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:city_pickers/city_pickers.dart';
+
 import 'package:fun/common/global.dart';
 import 'package:fun/common/resource.dart';
 
@@ -24,17 +26,27 @@ class SearchAppBar extends PreferredSize {
                   SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(Icons.location_on),
-                      Text(
-                        '太原市',
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
+                  Builder(
+                    builder: (context) => InkWell(
+                      onTap: () {
+                        CityPickers.showCitiesSelector(
+                          context: context,
+                          hotCities: [HotCity(id: 0, name: '太原市')],
+                        );
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(Icons.location_on),
+                          Text(
+                            '太原市',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(
                     width: 10,
