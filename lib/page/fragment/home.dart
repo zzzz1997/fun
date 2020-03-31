@@ -60,18 +60,17 @@ class _HomeFragmentState extends State<HomeFragment>
             showToast(e.toString());
           }
         },
-        child: ListView.builder(
-          itemBuilder: (_, i) => ChangeNotifierProvider.value(
-            value: _model,
-            child: Consumer<HomeModel>(
-              builder: (_, m, __) => LoadingView(
-                commonStatus: _model.status,
-                isEmpty: _model.banners.isEmpty,
-                child: Column(
-                  children: <Widget>[
-                    _buildBanner(_model.banners),
-                    ..._buildImageButton(_model.icons),
-                    _buildRecommend(),
+        child: ChangeNotifierProvider.value(
+          value: _model,
+          child: Consumer<HomeModel>(
+            builder: (_, m, __) => LoadingView(
+              commonStatus: _model.status,
+              isEmpty: _model.banners.isEmpty,
+              child: Column(
+                children: <Widget>[
+                  _buildBanner(_model.banners),
+                  ..._buildImageButton(_model.icons),
+                  _buildRecommend(),
 //            RecommendFragment([
 //              Merchandise('手工仿古竹编包竹篮子茶篮杂物篮装饰摆设花器花插竹制品摆件',
 //                  'im_merchandise_home_0.jpg', 28.5),
@@ -86,13 +85,11 @@ class _HomeFragmentState extends State<HomeFragment>
 //              Merchandise('潮州传统工艺品纯手工花茉莉陶瓷花白色禅意摆件摆设香插线香香座',
 //                  'im_merchandise_home_5.jpg', 28.5),
 //            ]),
-                  ],
-                ),
-                onErrorTap: _key.currentState.show,
+                ],
               ),
+              onErrorTap: _key.currentState.show,
             ),
           ),
-          itemCount: 1,
         ),
       ),
     );

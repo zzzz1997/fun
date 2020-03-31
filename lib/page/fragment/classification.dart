@@ -125,7 +125,7 @@ class _ClassificationFragmentState extends State<ClassificationFragment>
       height: double.infinity,
       child: ListView.builder(
         shrinkWrap: true,
-        itemBuilder: (_, i) => GestureDetector(
+        itemBuilder: (_, i) => InkWell(
           onTap: () {
             if ([0, 1].contains(i) && _index != i) {
               setState(() {

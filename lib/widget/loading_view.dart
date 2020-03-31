@@ -31,19 +31,25 @@ class LoadingView extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return commonStatus == CommonStatus.LOADING && isEmpty
-        ? Center(
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: SizedBox(
-                width: 27,
-                height: 27,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor),
+        ? Column(
+      mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: SizedBox(
+                    width: 27,
+                    height: 27,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).accentColor),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           )
         : commonStatus == CommonStatus.DONE
             ? isEmpty
@@ -51,7 +57,7 @@ class LoadingView extends StatelessWidget implements PreferredSizeWidget {
                     child: SizedBox(),
                   )
                 : child
-            : GestureDetector(
+            : InkWell(
                 onTap: onErrorTap,
                 child: Center(
                   child: SizedBox(),
