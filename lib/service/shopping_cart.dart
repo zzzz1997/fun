@@ -11,8 +11,12 @@ class ShoppingCartService {
   ///
   /// 获取推荐商品
   ///
-  static Future<List<RecommendMerchandise>> getRecommendMerchandise() async {
-    return (await BaseService.getList<RecommendMerchandise>(equal: {"type": 2}))
+  static Future<List<RecommendMerchandise>> getRecommendMerchandise(
+      {int page = 1}) async {
+    return (await BaseService.getList<RecommendMerchandise>(
+      page: page,
+      equal: {"type": 2},
+    ))
         .map((i) => RecommendMerchandise.fromJson(i))
         .toList();
   }

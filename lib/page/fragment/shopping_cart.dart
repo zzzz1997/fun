@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun/common/route.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -27,6 +28,9 @@ class ShoppingCartFragment extends StatefulWidget {
 ///
 class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
     with AutomaticKeepAliveClientMixin {
+  // 刷新键
+  final _controller = EasyRefreshController();
+
   // 状态模型
   final _model = ShoppingCartModel();
 
@@ -47,14 +51,15 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Global.brightnessColor(
-            context, Colors.white, Theme.of(context).appBarTheme.color),
+        automaticallyImplyLeading: false,
+        backgroundColor: Global.brightnessColor(context,
+            light: Colors.white, dark: Theme.of(context).canvasColor),
         elevation: 4,
         centerTitle: true,
         title: Text(
           '购物车',
           style: TextStyle(
-            color: Theme.of(context).textTheme.body1.color,
+            color: Theme.of(context).textTheme.bodyText1.color,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -81,6 +86,7 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
             commonStatus: _model.status,
             isEmpty: _model.merchandises.isEmpty,
             child: EasyRefresh.custom(
+              controller: _controller,
               footer: MaterialFooter(enableInfiniteLoad: !_model.noMore),
               onRefresh: () async {
                 await _loadData(true);
@@ -125,8 +131,9 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
                                             Icons.error,
                                             color: Global.brightnessColor(
                                                 context,
-                                                Color(0xFF999999),
-                                                IconTheme.of(context).color),
+                                                light: Color(0xFF999999),
+                                                dark: IconTheme.of(context)
+                                                    .color),
                                             size: 20,
                                           ),
                                         ),
@@ -219,8 +226,9 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
                                                       color: Global
                                                           .brightnessColor(
                                                               context,
-                                                              Color(0xFF999999),
-                                                              IconTheme.of(
+                                                              light: Color(
+                                                                  0xFF999999),
+                                                              dark: IconTheme.of(
                                                                       context)
                                                                   .color),
                                                       size: 20,
@@ -273,10 +281,10 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
                                           style: TextStyle(
                                             color: Global.brightnessColor(
                                                 context,
-                                                Color(0xFF999999),
-                                                Theme.of(context)
+                                                light: Color(0xFF999999),
+                                                dark: Theme.of(context)
                                                     .textTheme
-                                                    .body1
+                                                    .bodyText1
                                                     .color),
                                             fontSize: 12,
                                           ),
@@ -297,7 +305,74 @@ class _ShoppingCartFragmentState extends State<ShoppingCartFragment>
                 )
               ],
             ),
+            onErrorTap: () {
+              _loadData(true);
+            },
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 5,
+        ),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.check_circle,
+              color: Style.colorRed,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text('全选'),
+            SizedBox(
+              width: 15,
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '合计：￥28.50',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  '￥28.50',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                MyRoute.pushNamed(MyRoute.place_order);
+              },
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  shape: StadiumBorder(),
+                  color: Style.colorRed,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 3,
+                  ),
+                  child: Text(
+                    '结算',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

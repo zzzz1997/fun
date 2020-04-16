@@ -38,6 +38,9 @@ class HomeModel extends BaseModel {
   // 获取商品列表
   List<RecommendMerchandise> get merchandises => _merchandises;
 
+  // 页码
+  int _page = 1;
+
   // 没有更多
   bool _noMore = false;
 
@@ -48,6 +51,8 @@ class HomeModel extends BaseModel {
   /// 初始化
   ///
   init() async {
+    _page = 1;
+    _noMore = false;
     await load(() async {
       _banners = await HomeService.getBanner();
       _icons = await HomeService.getIcon();
@@ -61,9 +66,14 @@ class HomeModel extends BaseModel {
   ///
   loadMore() async {
     await load(() async {
-      await Future.delayed(Duration(seconds: 1));
-      _noMore = true;
-      showToast('没有更多了～');
+      var list = await HomeService.getRecommendMerchandise(page: _page + 1);
+      if (list.isNotEmpty) {
+        _page++;
+        _merchandises += list;
+      } else {
+        _noMore = true;
+        showToast('没有更多了～');
+      }
     });
   }
 }

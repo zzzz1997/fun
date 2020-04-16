@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:extended_image/extended_image.dart';
 
 ///
 /// 矢量图标
@@ -22,23 +23,25 @@ class ImageHelper {
   ///
   /// 网络图片
   ///
-  static CachedNetworkImage networkImage(String url,
+  static ExtendedImage networkImage(String url,
       {double width, double height, BoxFit fit}) {
-    return CachedNetworkImage(
-      imageUrl: url,
+    return ExtendedImage.network(
+      url,
       width: width,
       height: height,
       fit: fit,
-      placeholder: (_, __) =>
-          Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-            ),
-          ),
-      errorWidget: (_, __, ___) =>
-          Center(
-            child: Icon(Icons.error_outline),
-          ),
+      loadStateChanged: (ExtendedImageState s) =>
+          s.extendedImageLoadState == LoadState.loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                  ),
+                )
+              : s.extendedImageLoadState == LoadState.failed
+                  ? Center(
+                      child: Icon(Icons.error_outline),
+                    )
+                  : null,
     );
   }
 
@@ -60,5 +63,9 @@ class ImageHelper {
 ///
 /// 样式
 class Style {
+  // 红色
   static Color colorRed = Color(0xFFF23030);
+
+  // 按钮灰
+  static Color iconGrey = Color(0xFFCCCCCC);
 }

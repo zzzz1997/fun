@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/common/route.dart';
 import 'package:fun/model/theme.dart';
-import 'package:provider/provider.dart';
 
 ///
 /// 用户页面

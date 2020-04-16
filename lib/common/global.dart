@@ -43,7 +43,8 @@ class Global {
   ///
   /// 夜间模式颜色
   ///
-  static Color brightnessColor(BuildContext context, Color light, Color dark) {
+  static Color brightnessColor(BuildContext context,
+      {Color light = Colors.black, Color dark = Colors.white}) {
     return Theme.of(context).brightness == Brightness.light ? light : dark;
   }
 

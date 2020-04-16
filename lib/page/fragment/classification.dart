@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/common/resource.dart';
-import 'package:fun/widget/search_appbar.dart';
+import 'package:fun/page/fragment/home.dart';
 
 ///
 /// 分类页面
@@ -104,7 +104,7 @@ class _ClassificationFragmentState extends State<ClassificationFragment>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: SearchAppBar(),
+      appBar: HomeFragment.buildAppBar(context),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -120,7 +120,8 @@ class _ClassificationFragmentState extends State<ClassificationFragment>
   ///
   Widget _buildClassification() {
     return Container(
-      color: Global.brightnessColor(context, Color(0xFFF0F0F0), Colors.black38),
+      color: Global.brightnessColor(context,
+          light: Color(0xFFF0F0F0), dark: Colors.black38),
       width: 90,
       height: double.infinity,
       child: ListView.builder(
@@ -142,7 +143,7 @@ class _ClassificationFragmentState extends State<ClassificationFragment>
                 style: TextStyle(
                   color: _index == i
                       ? Style.colorRed
-                      : Theme.of(context).textTheme.body1.color,
+                      : Theme.of(context).textTheme.bodyText1.color,
                   fontSize: 13,
                 ),
               ),

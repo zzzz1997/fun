@@ -16,7 +16,7 @@ dependencies:
   # 状态管理
   provider: ^4.0.4
   # 缓存图片
-  cached_network_image: ^2.0.0
+  extended_image: ^0.7.2
   # 吐司
   oktoast: ^2.3.1+1
   # 本地存储

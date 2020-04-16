@@ -10,9 +10,16 @@ import 'package:data_plugin/bmob/table/bmob_object.dart';
 ///
 class BaseService {
   static Future<List> getList<T extends BmobObject>(
-      {Map<String, Object> equal = const {}}) async {
+      {int page = 1,
+      int size = 5,
+      bool all = false,
+      Map<String, Object> equal = const {}}) async {
     try {
       var query = BmobQuery<T>();
+      if (!all) {
+        query.setLimit(size);
+        query.setSkip((page - 1) * size);
+      }
       equal.forEach((key, value) {
         query.addWhereEqualTo(key, value);
       });

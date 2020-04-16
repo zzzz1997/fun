@@ -5,12 +5,15 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:city_pickers/city_pickers.dart';
 
 import 'package:fun/common/resource.dart';
+import 'package:fun/common/route.dart';
 import 'package:fun/entity/home_banner.dart';
 import 'package:fun/entity/home_icon.dart';
 import 'package:fun/entity/recommend_work.dart';
 import 'package:fun/model/home.dart';
+import 'package:fun/model/main.dart';
 import 'package:fun/page/fragment/recommend.dart';
 import 'package:fun/widget/loading_view.dart';
 import 'package:fun/widget/search_appbar.dart';
@@ -24,6 +27,49 @@ import 'package:fun/widget/search_appbar.dart';
 class HomeFragment extends StatefulWidget {
   @override
   _HomeFragmentState createState() => _HomeFragmentState();
+
+  ///
+  /// 构建appbar
+  ///
+  static Widget buildAppBar(BuildContext context) {
+    return SearchAppBar(
+      left: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(Icons.location_on),
+          Consumer<MainModel>(
+            builder: (_, m, __) => Text(
+              m.city.length > 3 ? m.city.substring(0, 3) : m.city,
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
+      ),
+      right: Icon(
+        IconFonts.scanQrcode,
+        size: 20,
+        color: Style.iconGrey,
+      ),
+      onSearchTap: () {
+        MyRoute.pushNamed(
+          MyRoute.list,
+//          routeType: AnimationType.CUPERTINO,
+        );
+      },
+      onLeftTap: () async {
+        var result = await CityPickers.showCitiesSelector(
+          context: context,
+          hotCities: [HotCity(id: 0, name: '太原市')],
+        );
+        if (result != null) {
+          Provider.of<MainModel>(context, listen: false)
+              .setCity(result.cityName);
+        }
+      },
+    );
+  }
 }
 
 ///
@@ -50,7 +96,7 @@ class _HomeFragmentState extends State<HomeFragment>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: SearchAppBar(),
+      appBar: HomeFragment.buildAppBar(context),
       body: ChangeNotifierProvider.value(
         value: _model,
         child: Consumer<HomeModel>(

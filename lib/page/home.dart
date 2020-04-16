@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 
 import 'package:fun/common/global.dart';
+import 'package:fun/model/main.dart';
 import 'package:fun/page/fragment/classification.dart';
 import 'package:fun/page/fragment/course.dart';
 import 'package:fun/page/fragment/home.dart';
@@ -29,6 +31,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // 页面控制器
   final PageController _controller = PageController();
+
+  // 状态模型
+  final _model = MainModel();
 
   // 碎片数组
   List<Widget> _list = [];
@@ -56,46 +61,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        controller: _controller,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (_, i) => _list[i],
-        itemCount: _list.length,
-        onPageChanged: (index) {
-          setState(() {
-            _index = index;
-          });
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(Global.s.home),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            title: Text(Global.s.classification),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text(Global.s.course),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            title: Text(Global.s.shopping_cart),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tag_faces),
-            title: Text(Global.s.mine),
-          ),
-        ],
-        currentIndex: _index,
-        onTap: (index) {
-          _controller.jumpToPage(index);
-        },
+    return ChangeNotifierProvider.value(
+      value: _model,
+      child: Scaffold(
+        body: PageView.builder(
+          controller: _controller,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (_, i) => _list[i],
+          itemCount: _list.length,
+          onPageChanged: (index) {
+            setState(() {
+              _index = index;
+            });
+          },
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text(Global.s.home),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.category),
+              title: Text(Global.s.classification),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              title: Text(Global.s.course),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              title: Text(Global.s.shopping_cart),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.tag_faces),
+              title: Text(Global.s.mine),
+            ),
+          ],
+          currentIndex: _index,
+          onTap: (index) {
+            _controller.jumpToPage(index);
+          },
+        ),
       ),
     );
   }

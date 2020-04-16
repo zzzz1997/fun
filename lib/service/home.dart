@@ -15,7 +15,7 @@ class HomeService {
   /// 获取轮播
   ///
   static Future<List<HomeBanner>> getBanner() async {
-    return (await BaseService.getList<HomeBanner>())
+    return (await BaseService.getList<HomeBanner>(all: true))
         .map((i) => HomeBanner.fromJson(i))
         .toList();
   }
@@ -24,7 +24,7 @@ class HomeService {
   /// 获取图标
   ///
   static Future<List<HomeIcon>> getIcon() async {
-    return (await BaseService.getList<HomeIcon>())
+    return (await BaseService.getList<HomeIcon>(all: true))
         .map((i) => HomeIcon.fromJson(i))
         .toList();
   }
@@ -33,7 +33,7 @@ class HomeService {
   /// 获取工作
   ///
   static Future<List<RecommendWork>> getRecommendWork() async {
-    return (await BaseService.getList<RecommendWork>())
+    return (await BaseService.getList<RecommendWork>(all: true))
         .map((i) => RecommendWork.fromJson(i))
         .toList();
   }
@@ -41,8 +41,12 @@ class HomeService {
   ///
   /// 获取推荐商品
   ///
-  static Future<List<RecommendMerchandise>> getRecommendMerchandise() async {
-    return (await BaseService.getList<RecommendMerchandise>(equal: {"type": 0}))
+  static Future<List<RecommendMerchandise>> getRecommendMerchandise(
+      {int page = 1}) async {
+    return (await BaseService.getList<RecommendMerchandise>(
+      page: page,
+      equal: {"type": 0},
+    ))
         .map((i) => RecommendMerchandise.fromJson(i))
         .toList();
   }

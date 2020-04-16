@@ -17,6 +17,9 @@ class ShoppingCartModel extends BaseModel {
   // 获取商品列表
   List<RecommendMerchandise> get merchandises => _merchandises;
 
+  // 页码
+  int _page = 1;
+
   // 没有更多
   bool _noMore = false;
 
@@ -27,6 +30,8 @@ class ShoppingCartModel extends BaseModel {
   /// 初始化
   ///
   init() async {
+    _page = 1;
+    _noMore = false;
     await load(() async {
       _merchandises = await ShoppingCartService.getRecommendMerchandise();
     });
@@ -37,9 +42,14 @@ class ShoppingCartModel extends BaseModel {
   ///
   loadMore() async {
     await load(() async {
-      await Future.delayed(Duration(seconds: 1));
-      _noMore = true;
-      showToast('没有更多了～');
+      var list = await ShoppingCartService.getRecommendMerchandise(page: _page + 1);
+      if (list.isNotEmpty) {
+        _page++;
+        _merchandises += list;
+      } else {
+        _noMore = true;
+        showToast('没有更多了～');
+      }
     });
   }
 }

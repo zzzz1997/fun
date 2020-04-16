@@ -8,6 +8,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:fun/common/resource.dart';
 import 'package:fun/entity/course.dart';
 import 'package:fun/model/course.dart';
+import 'package:fun/page/fragment/home.dart';
 import 'package:fun/page/fragment/recommend.dart';
 import 'package:fun/widget/loading_view.dart';
 import 'package:fun/widget/search_appbar.dart';
@@ -47,7 +48,7 @@ class _CourseFragmentState extends State<CourseFragment>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: SearchAppBar(),
+      appBar: HomeFragment.buildAppBar(context),
       body: ChangeNotifierProvider.value(
         value: _model,
         child: Consumer<CourseModel>(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/page/home.dart';
+import 'package:fun/page/list.dart';
+import 'package:fun/page/place_order.dart';
 import 'package:fun/page/setting.dart';
 
 ///
@@ -29,8 +31,14 @@ class MyRoute {
   // 主页路由
   static const home = 'home';
 
+  // 列表路由
+  static const list = 'list';
+
   // 设置路由
   static const setting = 'setting';
+
+  // 下单路由
+  static const place_order = 'place_order';
 
   ///
   /// 构造路由
@@ -125,8 +133,12 @@ class MyRoute {
     switch (name) {
       case home:
         return HomePage();
+      case list:
+        return ListPage();
       case setting:
         return SettingPage();
+      case place_order:
+        return PlaceOrderPage();
       default:
         return Scaffold(
           body: Center(
