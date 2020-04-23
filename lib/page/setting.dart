@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:oktoast/oktoast.dart';
 
 import 'package:fun/common/global.dart';
 import 'package:fun/model/locale.dart';
@@ -26,6 +29,102 @@ class SettingPage extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Material(
+                color: Theme.of(context).cardColor,
+                child: ListTile(
+                  title: Text(Global.s.darkMode),
+                  onTap: () {
+                    _switchDarkMode(context);
+                  },
+                  leading: Transform.rotate(
+                    angle: -pi,
+                    child: Icon(
+                      Theme.of(context).brightness == Brightness.light
+                          ? Icons.brightness_5
+                          : Icons.brightness_2,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                  trailing: Switch(
+                    activeColor: Theme.of(context).accentColor,
+                    value: Theme.of(context).brightness == Brightness.dark,
+                    onChanged: (_) {
+//                      switchDarkMode();
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Material(
+                color: Theme.of(context).cardColor,
+                child: ExpansionTile(
+                  title: Text(Global.s.colorTheme),
+                  leading: Icon(
+                    Icons.color_lens,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: <Widget>[
+                          ...Colors.primaries
+                              .map((color) => Material(
+                            color: color,
+                            child: InkWell(
+                              onTap: () {
+                                Provider.of<ThemeModel>(context,
+                                    listen: false)
+                                    .switchTheme(color: color);
+                              },
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                              ),
+                            ),
+                          ))
+                              .toList(),
+                          Material(
+                            child: InkWell(
+                              onTap: () {
+                                Provider.of<ThemeModel>(context, listen: false)
+                                    .switchRandomTheme();
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                                width: 40,
+                                height: 40,
+                                child: Text(
+                                  '?',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -115,5 +214,21 @@ class SettingPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ///
+  /// 切换夜间模式
+  ///
+  _switchDarkMode(context) {
+    if (Global.mediaQuery.platformBrightness == Brightness.dark) {
+      showToast(
+        '检测到系统为暗黑模式,已为你自动切换',
+        position: ToastPosition.bottom,
+      );
+    } else {
+      Provider.of<ThemeModel>(context, listen: false).switchTheme(
+        isDarkMode: Theme.of(context).brightness == Brightness.light,
+      );
+    }
   }
 }

@@ -11,7 +11,6 @@ import 'package:fun/model/course.dart';
 import 'package:fun/page/fragment/home.dart';
 import 'package:fun/page/fragment/recommend.dart';
 import 'package:fun/widget/loading_view.dart';
-import 'package:fun/widget/search_appbar.dart';
 
 ///
 /// 课程页面

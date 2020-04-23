@@ -24,12 +24,13 @@ class ImageHelper {
   /// 网络图片
   ///
   static ExtendedImage networkImage(String url,
-      {double width, double height, BoxFit fit}) {
+      {double width, double height, BoxFit fit, BoxShape shape}) {
     return ExtendedImage.network(
       url,
       width: width,
       height: height,
       fit: fit,
+      shape: shape,
       loadStateChanged: (ExtendedImageState s) =>
           s.extendedImageLoadState == LoadState.loading
               ? Center(

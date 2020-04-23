@@ -9,6 +9,9 @@ import 'package:data_plugin/bmob/table/bmob_object.dart';
 /// @created_time 20200323
 ///
 class BaseService {
+  ///
+  /// 获取列表
+  ///
   static Future<List> getList<T extends BmobObject>(
       {int page = 1,
       int size = 5,
