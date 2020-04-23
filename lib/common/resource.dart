@@ -66,6 +66,12 @@ class Style {
   // 红色
   static Color colorRed = Color(0xFFF23030);
 
-  // 按钮灰
+  // 图标灰
   static Color iconGrey = Color(0xFFCCCCCC);
+
+  // 分割灰
+  static Color dividerGrey = Color(0xFFE1E1E1);
+
+  // 提示蓝
+  static Color colorBlue = Color(0xFF6679B3);
 }

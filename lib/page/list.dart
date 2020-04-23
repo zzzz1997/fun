@@ -87,7 +87,7 @@ class _ListPageState extends State<ListPage> {
                         ? _buildMerchandise(_model.merchandises[i ~/ 2])
                         : Container(
                             height: 1,
-                            color: Color.fromARGB(255, 225, 225, 225),
+                            color: Style.dividerGrey,
                           ),
                     childCount: 2 * _model.merchandises.length - 1,
                   ),
